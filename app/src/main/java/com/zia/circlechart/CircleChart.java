@@ -25,7 +25,7 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
     private boolean isRun = false;
     private List<ChartData> list;//数据
     private int space = 100;//设置为自动计算间距，此项废弃
-    private float centerX,centerY;
+    private float centerX = 0,centerY = 0;
     static int defaultColor = Color.RED,defaultTextColor = Color.BLACK;
 
 
@@ -46,6 +46,11 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
     @Override
     protected void onDraw(final Canvas canvas) {
         super.onDraw(canvas);
+        if(centerX == 0 || centerY == 0){
+            centerX = getWidth()/2;
+            centerY = getHeight()/2;
+        }
+        if(list.size() == 0) return;
         if(isRun) {
             int count = 0;
             int space = (getWidth()/2-10)/list.size();
@@ -54,9 +59,10 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
                     data.setRadius(getWidth()/2-20-space*count);
                     count++;
                 }
+                if(data.getPercentage() == 0) return;//防bug
                 //drawArc(canvas, data.getPercentage(), data.getColor()+200, data.getRadius()+3,data.getSpeed());
                 drawArc(canvas, data.getPercentage(), data.getColor(), data.getRadius(),data.getSpeed());
-                drawText(canvas,data.getText(),paintWidth,data.getTextColor(),data.getRadius());
+                drawText(canvas,data.getText(),paint.measureText(data.getText()),paintWidth,data.getTextColor(),data.getRadius());
             }
         }
     }
@@ -70,8 +76,6 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
      * @param s 速度
      */
     private void drawArc(Canvas canvas, float percentage, int color, float radius, int s){
-        centerX = getWidth()/2;
-        centerY = getHeight()/2;
         RectF oval = new RectF( centerX-radius, centerY-radius, centerX+radius, centerY+radius);//用一个正方形包裹圆形
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStyle(Paint.Style.STROKE);
@@ -84,16 +88,16 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
             canvas.drawArc(oval,-90,rotate,false,paint);
             log(rotate+"");
             invalidate();
-        }else{//到达终点
+        }else{//到达终点,停止绘制
             canvas.drawArc(oval,-90,percentage/100*360,false,paint);
         }
     }
 
-    private void drawText(Canvas canvas,String text,int textSize,int color,float radius){
+    private void drawText(Canvas canvas,String text,float textWidth, int textSize,int color,float radius){
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(textSize);
-        canvas.drawText(text,centerX-paint.measureText(text)-15,centerY-radius+10,paint);
+        canvas.drawText(text,centerX-textWidth-15,centerY-radius+10,paint);
     }
 
     public void setData(List<ChartData> list){
@@ -115,6 +119,7 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
      * @param speed 速度
      */
     public void setSpeed(int speed){
+        if(speed <= 0) return;
         this.speed = speed;
     }
 
@@ -123,6 +128,7 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
      * @param width 宽度
      */
     public void setPaintWidth(int width){
+        if(width <= 0) return;
         paintWidth = width;
     }
 

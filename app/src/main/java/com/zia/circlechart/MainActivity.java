@@ -18,11 +18,9 @@ public class MainActivity extends AppCompatActivity {
         initData();
         CircleChart circleChart = (CircleChart)findViewById(R.id.chart);
         //circleChart.setPaintWidth(30);//设置线宽默认为30
-        //速度默认为1.具体见代码注释
-        // 这里设置为所有圆的速度，可在ChartData里单独设置
-        //circleChart.setSpeed(2);
-        //circleChart.setDefaultColor(Color.parseColor("#bfbfbf"));//设置默认线颜色
-        //circleChart.setDefaultTextColor(Color.parseColor("#bfbfbf"));//设置字体颜色
+        //circleChart.setSpeed(2);//设置默认速度为1.具体计算见代码注释这里设置为所有圆的速度，可单独设置
+        //circleChart.setDefaultColor(Color.parseColor("#bfbfbf"));//设置默认线颜色，可单独设置
+        //circleChart.setDefaultTextColor(Color.parseColor("#bfbfbf"));//设置默认字体颜色，可单独设置
         circleChart.setData(datas);
         //开始动画，在这之前不会动
         circleChart.run();
