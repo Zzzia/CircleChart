@@ -64,6 +64,8 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
                 drawArc(canvas, data.getPercentage(), data.getColor(), data.getRadius(),data.getSpeed());
                 drawText(canvas,data.getText(),paint.measureText(data.getText()),paintWidth,data.getTextColor(),data.getRadius());
             }
+        }else{
+            invalidate();
         }
     }
 
