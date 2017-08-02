@@ -22,6 +22,7 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
     private int paintWidth = 70;//线宽
     private int speed = 1;//移动速度
     private int rotate = 0;//转动角度
+    private int startAngle = -90;//起始角度，默认在最上方开始
     private boolean isRun = false;
     private List<ChartData> list;//数据
     private int space = paintWidth+20;//线间距
@@ -74,8 +75,8 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
                 drawBackground(canvas,data.getBackgroundColor(),data.getBackgroundStrokeColor(),data.getRadius());
                 //绘制动画数据条
                 drawArc(canvas, data.getPercentage(), data.getColor(),data.getStrokeColor(), data.getRadius(),data.getSpeed());
-                //绘制文字，这里设置字体小15号..
-                drawText(canvas,data.getText(),paint.measureText(data.getText()),paintWidth-15,data.getColor(),data.getRadius());
+                //绘制文字，这里设置字体小20号..
+                drawText(canvas,data.getText(),paint.measureText(data.getText()),paintWidth-20,data.getTextColor(),data.getRadius());
             }
         }else{
             invalidate();
@@ -93,14 +94,14 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
     private void drawArc(Canvas canvas, float percentage, int color, int strokeColor, float radius, int s){
         RectF oval = new RectF( centerX-radius, centerY-radius, centerX+radius, centerY+radius);//用一个正方形包裹圆形
         if((float)rotate/360*100 < percentage){//还没到达终点
-            drawArc(canvas,oval,-88,rotate,paintWidth+10,strokeColor);//绘制底层阴影
-            drawArc(canvas,oval,-88,rotate,paintWidth,color);//绘制上层，宽度稍微小点，留出空间
+            drawArc(canvas,oval,startAngle,rotate,paintWidth+10,strokeColor);//绘制底层阴影
+            drawArc(canvas,oval,startAngle,rotate,paintWidth,color);//绘制上层，宽度稍微小点，留出空间
             rotate = rotate + s;//角度增加一度
             log(rotate+"");
             invalidate();
         }else{//到达终点,停止绘制
-            drawArc(canvas,oval,-88,(int)(percentage/100*360),paintWidth+10,strokeColor);//绘制底层阴影
-            drawArc(canvas,oval,-88,(int)(percentage/100*360),paintWidth,color);//绘制上层，宽度稍微小点，留出空间
+            drawArc(canvas,oval,startAngle,(int)(percentage/100*360),paintWidth+10,strokeColor);//绘制底层阴影
+            drawArc(canvas,oval,startAngle,(int)(percentage/100*360),paintWidth,color);//绘制上层，宽度稍微小点，留出空间
         }
     }
 
@@ -118,7 +119,7 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(color);
         paint.setStrokeWidth(strokeWidth);
-        canvas.drawArc(oval,angle,rotate,false,paint);
+        canvas.drawArc(oval,angle,rotate+(-90-angle),false,paint);
     }
 
     /**
@@ -144,7 +145,7 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(textSize);
-        canvas.drawText(text,centerX-textWidth-35,centerY-radius+20,paint);
+        canvas.drawText(text,centerX-textWidth-15,centerY-radius+28,paint);
     }
 
     public void setData(List<ChartData> list){
@@ -168,6 +169,14 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
     public void setSpeed(int speed){
         if(speed <= 0) return;
         this.speed = speed;
+    }
+
+    /**
+     * 设置起始角度
+     * @param angle 角度
+     */
+    public void setStartAngle(int angle){
+        this.startAngle = angle;
     }
 
     /**

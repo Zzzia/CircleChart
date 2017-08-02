@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
         //circleChart.setSpeed(2);//设置默认速度为1.具体计算见代码注释这里设置为所有圆的速度，可单独设置
         //circleChart.setDefaultColor(Color.parseColor("#bfbfbf"));//设置默认线颜色，可单独设置
         //circleChart.setDefaultTextColor(Color.parseColor("#bfbfbf"));//设置默认字体颜色，可单独设置
+        circleChart.setStartAngle(-80);
         circleChart.setSpace(90);//设置间距，默认自动计算间距
         circleChart.setData(datas);
         button.setOnClickListener(new View.OnClickListener() {
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
     private void initData(){
         ChartData data1 = new ChartData();
         data1.setText("75%");//黄色
+        data1.setTextColor(Color.parseColor("#EED66D"));
         data1.setPercentage(75);
         data1.setBackgroundStrokeColor(Color.parseColor("#FFFBF1"));
         data1.setBackgroundColor(Color.parseColor("#FFFFFC"));
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         data1.setStrokeColor(Color.parseColor("#EED66D"));
         ChartData data2 = new ChartData();
         data2.setText("60%");//绿色
+        data2.setTextColor(Color.parseColor("#74EAD9"));
         data2.setPercentage(60);
         data2.setBackgroundStrokeColor(Color.parseColor("#ECFFFD"));
         data2.setBackgroundColor(Color.parseColor("#F9FEFF"));
@@ -53,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         data2.setStrokeColor(Color.parseColor("#74EAD9"));
         ChartData data3 = new ChartData();
         data3.setText("50%");
+        data3.setTextColor(Color.parseColor("#7CC8F1"));
         data3.setPercentage(50);//蓝色
         data3.setBackgroundStrokeColor(Color.parseColor("#D4F6FF"));
         data3.setBackgroundColor(Color.parseColor("#F9FBFF"));
