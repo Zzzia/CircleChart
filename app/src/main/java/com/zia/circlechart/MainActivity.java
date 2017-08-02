@@ -20,10 +20,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initData();
         final CircleChart circleChart = (CircleChart)findViewById(R.id.chart);
-        //circleChart.setPaintWidth(30);//设置线宽默认为30
+        circleChart.openLog();
+        //circleChart.setPaintWidth(30);//设置线宽默认为70
         //circleChart.setSpeed(2);//设置默认速度为1.具体计算见代码注释这里设置为所有圆的速度，可单独设置
         //circleChart.setDefaultColor(Color.parseColor("#bfbfbf"));//设置默认线颜色，可单独设置
         //circleChart.setDefaultTextColor(Color.parseColor("#bfbfbf"));//设置默认字体颜色，可单独设置
+        circleChart.setSpace(90);//设置间距，默认自动计算间距
         circleChart.setData(datas);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,26 +38,29 @@ public class MainActivity extends AppCompatActivity {
 
     private void initData(){
         ChartData data1 = new ChartData();
+        data1.setText("75%");//黄色
+        data1.setPercentage(75);
+        data1.setBackgroundStrokeColor(Color.parseColor("#FFFBF1"));
+        data1.setBackgroundColor(Color.parseColor("#FFFFFC"));
+        data1.setColor(Color.parseColor("#FBFDBA"));
+        data1.setStrokeColor(Color.parseColor("#EED66D"));
         ChartData data2 = new ChartData();
+        data2.setText("60%");//绿色
+        data2.setPercentage(60);
+        data2.setBackgroundStrokeColor(Color.parseColor("#ECFFFD"));
+        data2.setBackgroundColor(Color.parseColor("#F9FEFF"));
+        data2.setColor(Color.parseColor("#9EFBEF"));
+        data2.setStrokeColor(Color.parseColor("#74EAD9"));
         ChartData data3 = new ChartData();
-        ChartData data4 = new ChartData();
-        data1.setPercentage(90);
-        data1.setColor(Color.RED);
-        data1.setText("妹子: 90%");
-        data1.setTextColor(Color.parseColor("#FFCCCC"));
-        data2.setPercentage(70);
-        data2.setColor(Color.GREEN);
-        data2.setText("学渣: 70%");
-        data3.setPercentage(50);
-        data3.setColor(Color.BLACK);
-        data3.setText("好盆友: 50%");
-        data4.setPercentage(30);
-        data4.setColor(Color.GRAY);
-        data4.setText("土豪: 30%");
+        data3.setText("50%");
+        data3.setPercentage(50);//蓝色
+        data3.setBackgroundStrokeColor(Color.parseColor("#D4F6FF"));
+        data3.setBackgroundColor(Color.parseColor("#F9FBFF"));
+        data3.setColor(Color.parseColor("#BAE5FF"));
+        data3.setStrokeColor(Color.parseColor("#7CC8F1"));
         datas.add(data1);
         datas.add(data2);
         datas.add(data3);
-        datas.add(data4);
         button = (Button)findViewById(R.id.button);
     }
 }
