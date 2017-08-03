@@ -25,8 +25,9 @@ public class MainActivity extends AppCompatActivity {
         //circleChart.setSpeed(2);//设置默认速度为1.具体计算见代码注释这里设置为所有圆的速度，可单独设置
         //circleChart.setDefaultColor(Color.parseColor("#bfbfbf"));//设置默认线颜色，可单独设置
         //circleChart.setDefaultTextColor(Color.parseColor("#bfbfbf"));//设置默认字体颜色，可单独设置
-        circleChart.setStartAngle(-80);
+        //circleChart.setStartAngle(-80);//起始角度，默认为-90
         circleChart.setSpace(90);//设置间距，默认自动计算间距
+        circleChart.setTextSlope();//设置字体沿圈写，在圈为半径一半内时有效
         circleChart.setData(datas);
         button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -28,6 +29,7 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
     private int space = paintWidth+20;//线间距
     private float centerX = 0,centerY = 0;
     private boolean autoSpace = true;//默认自动调整间距
+    private boolean textSlope = false;//设置字沿圈写
     static int defaultColor = Color.RED , defaultStrokeColor = Color.BLACK , defaultTextColor = Color.BLACK,
             defultBackgroundColor = Color.LTGRAY , defultBackgroundStrokeColor = Color.DKGRAY;
 
@@ -75,8 +77,8 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
                 drawBackground(canvas,data.getBackgroundColor(),data.getBackgroundStrokeColor(),data.getRadius());
                 //绘制动画数据条
                 drawArc(canvas, data.getPercentage(), data.getColor(),data.getStrokeColor(), data.getRadius(),data.getSpeed());
-                //绘制文字，这里设置字体小20号..
-                drawText(canvas,data.getText(),paint.measureText(data.getText()),paintWidth-20,data.getTextColor(),data.getRadius());
+                //绘制文字，这里设置字体为线宽的一半
+                drawText(canvas,data.getText(),paint.measureText(data.getText()),paintWidth/2,data.getTextColor(),data.getRadius());
             }
         }else{
             invalidate();
@@ -145,7 +147,15 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
         paint.setColor(color);
         paint.setStyle(Paint.Style.FILL);
         paint.setTextSize(textSize);
-        canvas.drawText(text,centerX-textWidth-15,centerY-radius+28,paint);
+        if(textSlope && radius < getWidth()/4){//如果允许字体沿圈，且圈在半径一半以内，生效
+            RectF oval = new RectF( centerX-radius, centerY-radius, centerX+radius, centerY+radius);//用一个正方形包裹圆形
+            Path path = new Path();
+            path.addArc(oval,-130,textWidth);
+            canvas.drawTextOnPath(text,path,0,15,paint);
+        }
+        else{
+            canvas.drawText(text,centerX-textWidth-getWidth()/20,centerY-radius+getWidth()/30,paint);
+        }
     }
 
     public void setData(List<ChartData> list){
@@ -196,6 +206,10 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
         if(space <= 0) return;
         this.space = space;
         autoSpace = false;
+    }
+
+    public void setTextSlope(){
+        textSlope = true;
     }
 
     /**
