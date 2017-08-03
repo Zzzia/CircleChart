@@ -94,29 +94,29 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
      * @param s 速度
      */
     private void drawArc(Canvas canvas, float percentage, int color, int strokeColor, float radius, int s){
-        RectF oval = new RectF( centerX-radius, centerY-radius, centerX+radius, centerY+radius);//用一个正方形包裹圆形
         if((float)rotate/360*100 < percentage){//还没到达终点
-            drawArc(canvas,oval,startAngle,rotate,paintWidth+10,strokeColor);//绘制底层阴影
-            drawArc(canvas,oval,startAngle,rotate,paintWidth,color);//绘制上层，宽度稍微小点，留出空间
+            drawArc(canvas,radius,startAngle,rotate,paintWidth+10,strokeColor);//绘制底层阴影
+            drawArc(canvas,radius,startAngle,rotate,paintWidth-1,color);//绘制上层，宽度稍微小点，留出空间
             rotate = rotate + s;//角度增加一度
             log(rotate+"");
             invalidate();
         }else{//到达终点,停止绘制
-            drawArc(canvas,oval,startAngle,(int)(percentage/100*360),paintWidth+10,strokeColor);//绘制底层阴影
-            drawArc(canvas,oval,startAngle,(int)(percentage/100*360),paintWidth,color);//绘制上层，宽度稍微小点，留出空间
+            drawArc(canvas,radius,startAngle,(int)(percentage/100*360),paintWidth+10,strokeColor);//绘制底层阴影
+            drawArc(canvas,radius,startAngle,(int)(percentage/100*360),paintWidth-1,color);//绘制上层，宽度稍微小点，留出空间
         }
     }
 
     /**
      * 画图再次封装
      * @param canvas 画布
-     * @param oval RectF
+     * @param radius 半径
      * @param angle 起始角度
      * @param rotate 绘制角度
      * @param strokeWidth 描边宽度
      * @param color 颜色
      */
-    private void drawArc(Canvas canvas,RectF oval,int angle,int rotate,int strokeWidth,int color){
+    private void drawArc(Canvas canvas,float radius,int angle,int rotate,int strokeWidth,int color){
+        RectF oval = new RectF( centerX-radius, centerY-radius, centerX+radius, centerY+radius);//用一个正方形包裹圆形
         paint.setStrokeCap(Paint.Cap.ROUND);
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(color);
