@@ -217,7 +217,7 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
      */
     public void run(){
         isRun = true;
-	rotate = 0;
+	    rotate = 0;
         invalidate();
     }
 
