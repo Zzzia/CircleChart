@@ -57,7 +57,7 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
             centerY = getHeight()/2;
         }
         log("onDraw");
-        if(list.size() == 0) return;
+        if(list == null || list.size() == 0) return;
         if(isRun) {
             int count = 0;
             for(ChartData data : list){
@@ -217,6 +217,8 @@ public class CircleChart extends android.support.v7.widget.AppCompatTextView {
      */
     public void run(){
         isRun = true;
+	rotate = 0;
+        invalidate();
     }
 
     public void openLog(){
